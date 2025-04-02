@@ -2,6 +2,8 @@ namespace Backend
 {
     public class WeatherForecast
     {
+        public int Id { get; set; } // Primary key
+
         public DateOnly Date { get; set; }
 
         public int TemperatureC { get; set; }
