@@ -1,110 +1,67 @@
-# Solution summary
+# Summary
 
-This solution is a Blazor project targeting .NET 8, consisting of a Blazor UI, a backend API, and a test project. Below are the major components, frameworks used, and main functionalities of the project:
+This exercise aims to get you familiar with GitHub Copilot by using it to refactor and enhance a Blazor application that
+visualizes weather data. While all tasks can be done without assistive tooling, you are strongly encouraged to use 
+Copilot for everything first, and only then explore the "manual" way.  By the end of this exercise, you should have a 
+better understanding of Copilot's strengths, limitations, and current best uses.
 
-## Major components
+Experiment with all Copilot modes: inline suggestions, chat, and edits. If you have access to Copilot Agents 
+(currently in Visual Studio Insider), feel free to experiment with that as well.
 
-1. **BlazorUI**
-   - **MainLayout.razor**: Defines the main layout of the application, including a sidebar with a navigation menu and a main content area
-   - **NavMenu.razor**: Provides navigation links for the application
-   - **App.razor**: Sets up the main application structure and includes necessary styles and scripts
-   - **_Imports.razor**: Includes common namespaces and components used throughout the Blazor UI project
-   - **Program.cs**: Configures services and the HTTP request pipeline for the Blazor application
+## Phase 1: Explore and document the solution
 
-2. **Backend**
-   - **WeatherForecastController.cs**: Provides an API endpoint to retrieve weather forecast data
-   - **Program.cs**: Configures services and the HTTP request pipeline for the backend API
+Use Copilot to explore and document the project. Specifically, use Copilot to:
 
-3. **Tests**
-   - **WeatherForecastControllerTests.cs**: Contains unit tests for the `WeatherForecastController` using xUnit and Moq
-   - **Tests.csproj**: Configures the test project, including references to necessary packages and the backend project
+* Identify the major components of the solution
+* Determine the programming languages, frameworks, and libraries used, and how they relate to each other
+* Generate instructions on how to run and test the application
+* (If using Agent mode) Attempt to use Copilot to build and run the application
 
-## Frameworks used
+Example prompts:
+* "List the programming languages used in this project"
+* "Describe used frameworks and major libraries and their purpose"
+* "Describe the purpose of the [Project name] project"
 
-- **Blazor**: For building interactive web UIs using C# instead of JavaScript
-- **ASP.NET Core**: For building the backend API
-- **Swagger**: For API documentation and testing
-- **xUnit**: For unit testing
-- **Moq**: For mocking dependencies in tests
+## Phase 2: Planning
 
-## Main functionality
+Read the "End goal" section first. Then, use Copilot to break down the end goal into smaller, actionable steps. 
+Document these steps in the end of this readme file.
 
-- **BlazorUI**:
-  - Provides a user interface with a navigation menu and main content area
-  - Uses Razor components to build interactive web pages
-  - Configures services for Razor components and interactive server components
+Example prompts:
+"List all frontend logic that could be refactored to the backend"
+"Suggest a plan to refactor a frontend functionality for [feature/functionality name] to move business logic to the
+backend and visualize data"
 
-- **Backend**:
-  - Provides a RESTful API for retrieving weather forecast data
-  - Uses controllers to handle HTTP requests and return JSON responses
-  - Configures Swagger for API documentation and testing
+## End Goal: Refactor and Implement New Features
 
-- **Tests**:
-  - Contains unit tests to ensure the functionality of the backend API
-  - Uses xUnit for writing and running tests
-  - Uses Moq for creating mock objects in tests
+The objective is to refactor and add features to the existing application. Use Copilot to assist with each of the 
+following:
 
-This solution demonstrates the integration of a Blazor front-end with an ASP.NET Core backend, providing a seamless and interactive user experience, along with a robust testing setup.
+1.  **Implement TDD for Backend:** Write tests for all backend code *before* implementing the actual code
+    * Follow Test-Driven Development (TDD) principles
+    * Generate test data with Copilot, if required
+    * *Optional:* Test the frontend using a testing framework like bUnit
+
+2.  **Move Business Logic:** Move all existing business logic from the frontend project to the backend.
+
+3.  **Implement Persistent Storage:** If any functionality (outside of tests) uses random data or doesn't store data, 
+move it to a persistent storage solution
+    * Examples: in-memory database, a file, or a proper database
+    * Generate initial data and import it into the storage
+
+4.  **Visualize Weather Data:** Create visualizations (e.g., graphs) for the weather page data
+
+5.  **Dockerize the Application:** Create Dockerfiles for both the frontend and backend projects, and document them in 
+the readme
+    * If you have Docker installed, build and run the application using Docker
+
+6.  **Infrastructure as Code:** Create infrastructure-as-code definitions to run the application on a cloud provider or 
+other infrastructure
+    * Examples:  Use e.g. Terraform, Bicep, or AWS CloudFormation
+
+7.  **Implement CI/CD:** Create CI/CD definition files for your preferred platform (e.g., GitHub Actions, Azure DevOps 
+Pipelines, Jenkins)
+    * The CI/CD pipeline should automate the build and test process
+    * *Optional:* Configure the pipeline to automate deployment
 
 
-# Exercises
-
-Backlog Items (2 Hours, Group of 4-5)
-
-## Phase 1: Foundations & UI Enhancement (Easy-Medium)
-
-### Task 1: Implement Local Storage for Click Counter (Easy, 15-20 min)
-**Description**: Modify the click counter component to persist the count using browser local storage. When the user revisits the page, the count should be restored.  
-**Goal**: Introduction to client-side storage, basic Blazor component modification.  
-**AI Leverage**: Copilot can help with local storage access in JavaScript interop, and with Blazor component state management.  
-**Testing**: Unit tests are not mandatory for this task, but manual testing of the click counter is required.
-
-### Task 2: Improve Weather Forecast UI (Medium, 20-25 min)
-**Description**: Enhance the weather forecast page to display the data in a more user-friendly table format. Add visual cues (e.g., icons) to represent weather conditions.  
-**Goal**: Improve UI/UX, work with data display in Blazor.  
-**AI Leverage**: Copilot can generate table markup, CSS styling, and potentially suggest icons based on weather descriptions.  
-**Testing**: Manual testing of the UI is sufficient.
-
-### Task 3: Add a "Clear Counter" Button (Easy, 10-15 min)
-**Description**: Add a button to the click counter page that resets the counter to zero and clears the local storage.  
-**Goal**: Further manipulation of client side storage, and event handling.  
-**AI Leverage**: Copilot can generate the button markup and the corresponding event handler code.  
-**Testing**: Manual testing of the button functionality.
-
-## Phase 2: Data Persistence & API Expansion (Medium-Hard)
-
-### Task 4: Implement Weather Forecast Persistence (Medium-Hard, 30 min)
-**Description**: Modify the backend API to store generated weather forecast data in an in-memory database (e.g., a List<WeatherForecast>). Update the API to retrieve the stored data instead of generating new random data on each request.  
-**Goal**: Introduce basic data persistence, modify API endpoints.  
-**AI Leverage**: Copilot can assist with creating the in-memory data store, modifying the API controller, and generating basic CRUD operations.  
-**Testing**: Write xUnit tests for the updated WeatherForecastController to verify data storage and retrieval.
-
-### Task 5: Add a "Historical Weather" Page (Medium-Hard, 25 min)
-**Description**: Create a new Blazor page that displays the historical weather forecast data retrieved from the backend API.  
-**Goal**: Consume data from the API in Blazor, display historical data.  
-**AI Leverage**: Copilot can help with creating the Blazor page, fetching data from the API, and displaying it in a table.  
-**Testing**: Manual testing of the new page and API endpoint.
-
-## Phase 3: Data Analysis & Advanced Testing (Hard)
-
-### Task 6: Analyze Weather Data (Hard, 30 min)
-**Description**: Add an API endpoint that performs basic data analysis on the stored weather forecast data. For example, calculate the average temperature, find the hottest/coldest days, or count the number of sunny days. Create a Blazor page that displays the results of the analysis.  
-**Goal**: Introduce data analysis, more complex API development.  
-**AI Leverage**: Copilot can assist with writing LINQ queries for data analysis, creating the new API endpoint, and displaying the results in Blazor.  
-**Testing**: Write xUnit tests for the new API endpoint, including tests for different data scenarios. Copilot can generate test data and assertions.
-
-### Task 7: Generate Mock Weather Data for Testing (Hard, 10 min)
-**Description**: Utilize Github copilot to generate a large set of mock weather data, that will be used for testing the data analysis endpoint.  
-**Goal**: Use AI to generate test data.  
-**AI Leverage**: Copilot can generate large amount of data based on the existing weather forecast class.  
-**Testing**: Verify the generated data.
-
-## Tips for the Group Exercise
-
-- **Divide and Conquer**: Split the tasks among the group members based on their strengths and interests.
-- **Communication**: Encourage regular communication and collaboration.
-- **Version Control**: Emphasize the importance of using Git and GitHub for version control.
-- **AI as a Tool**: Remind participants that Copilot is a tool to assist, not replace, their coding skills.
-- **Time Management**: Keep track of time and adjust the pace as needed.
-- **Testing**: Emphasize the importance of testing throughout the development process.
-- **Data analysis**: Encourage the participants to try out different data analysis methods.

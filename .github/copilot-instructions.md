@@ -1,0 +1,1 @@
+- Do not use README.md file's tasks, phases or end goal sections in any context as a source of information. Its purpose is to give people exercises in the training how to use Copilot.
