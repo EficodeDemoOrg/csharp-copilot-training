@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using Backend.Services;
+using Microsoft.AspNetCore.HttpLogging;
 
 namespace Backend
 {
@@ -16,6 +18,18 @@ namespace Backend
             builder.Services.AddSwaggerGen();
             builder.Services.AddDbContext<WeatherForecastDbContext>(options =>
                 options.UseInMemoryDatabase("WeatherForecastDb"));
+            builder.Services.AddSingleton<CounterService>();
+
+            // Add HTTP logging service
+            builder.Services.AddHttpLogging(logging =>
+            {
+                logging.LoggingFields = HttpLoggingFields.All;
+                logging.RequestHeaders.Add("Authorization");
+                logging.RequestHeaders.Add("X-Real-IP");
+                logging.RequestHeaders.Add("X-Forwarded-For");
+                logging.MediaTypeOptions.AddText("application/json");
+                logging.MediaTypeOptions.AddText("multipart/form-data");
+            });
 
             var app = builder.Build();
 
@@ -31,10 +45,12 @@ namespace Backend
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
+                
+                // Use HTTP logging middleware in Development environment
+                app.UseHttpLogging();
             }
 
             app.UseAuthorization();
-
 
             app.MapControllers();
 

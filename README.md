@@ -103,15 +103,12 @@ Pipelines, Jenkins)
    - Write unit tests for any business logic that needs to be moved from the frontend to the backend.
    - Ensure edge cases are covered.
 
-6. **Move Business Logic to Backend**
-   - Refactor the application to move all business logic from the frontend to the backend.
-
 ### Frontend (BlazorUI)
 7. **Write Tests for Frontend API Integration**
    - Use a testing framework like `bUnit` to validate that the frontend correctly calls backend APIs and displays data.
 
 8. **Refactor Frontend to Use Backend Logic**
-   - Update the BlazorUI project to fetch data and rely on backend APIs for business logic.
+   - Update the BlazorUI project to fetch data and rely on backend APIs for business logic. Run tests afterwards.
 
 9. **Write Tests for Weather Data Visualization**
    - Write tests to validate the rendering of weather data visualizations (e.g., graphs).
@@ -135,15 +132,72 @@ Pipelines, Jenkins)
     - Write infrastructure-as-code definitions (e.g., Terraform, Bicep) to deploy the application to a cloud provider.
 
 ### CI/CD
-15. **Write Tests for CI/CD Pipeline**
-    - Validate that the CI/CD pipeline builds, tests, and deploys the application correctly.
-
-16. **Implement CI/CD Pipeline**
+15. **Implement CI/CD Pipeline**
     - Create CI/CD workflows using GitHub Actions or another platform.
     - Automate the build, test, and deployment process.
 
----
+## CI/CD Pipeline Implementation
 
-This task list ensures that each step is actionable and follows TDD principles. You can now add this to the end of your `README.md` file.
+The project includes a comprehensive CI/CD pipeline implemented using GitHub Actions, which automates the build, test, and deployment process of the Weather Visualization application to Azure.
+
+### Pipeline Overview
+
+The CI/CD pipeline consists of three main stages:
+
+1. **Build and Test**
+   - Builds the .NET 8 solution
+   - Runs all unit tests
+   - Publishes the backend and frontend applications
+   - Creates build artifacts
+
+2. **Build and Push Docker Images**
+   - Deploys Azure infrastructure using Bicep templates
+   - Builds Docker images for both backend and frontend
+   - Pushes images to Azure Container Registry (ACR)
+
+3. **Deploy to Azure**
+   - Updates the container apps to use the latest images
+   - Outputs the deployment URLs
+
+### Workflow Triggers
+
+The pipeline is triggered by:
+- Pushes to main/master branches
+- Pull requests to main/master branches
+- Manual workflow dispatch (with environment selection)
+
+### Required Secrets
+
+To use this CI/CD pipeline, the following secrets need to be configured in your GitHub repository:
+
+- `AZURE_CREDENTIALS`: Azure service principal credentials for authentication
+- `ACR_USERNAME`: Username for Azure Container Registry
+- `ACR_PASSWORD`: Password for Azure Container Registry
+
+### How to Set Up Azure Credentials
+
+1. Create an Azure service principal:
+   ```bash
+   az ad sp create-for-rbac --name "GitHubActions" --role contributor --scopes /subscriptions/<subscription-id> --sdk-auth
+   ```
+
+2. Copy the JSON output and add it as a repository secret named `AZURE_CREDENTIALS`.
+
+3. After deploying the infrastructure, retrieve and set the ACR credentials:
+   ```bash
+   az acr credential show --name <acr-name> --resource-group weather-app-rg
+   ```
+
+4. Add the username and password as secrets named `ACR_USERNAME` and `ACR_PASSWORD`.
+
+### Environment Variables
+
+The pipeline uses the following environment variables:
+- `DOTNET_VERSION`: Set to '8.0.x' for .NET 8 LTS
+- `RESOURCE_GROUP`: Azure resource group (default: weather-app-rg)
+- `LOCATION`: Azure region (default: uksouth)
+- `NAME_PREFIX`: Resource name prefix (default: weather)
+
+These can be modified directly in the workflow file if needed.
 
 

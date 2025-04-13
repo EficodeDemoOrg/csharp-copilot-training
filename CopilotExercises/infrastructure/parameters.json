@@ -1,0 +1,49 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.23.1.45101",
+      "templateHash": "11876809974615964067"
+    }
+  },
+  "parameters": {
+    "environmentName": {
+      "type": "string",
+      "defaultValue": "dev",
+      "metadata": {
+        "description": "The environment name (dev, test, prod)"
+      }
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "UK South",
+      "metadata": {
+        "description": "The Azure region to deploy to"
+      }
+    },
+    "namePrefix": {
+      "type": "string",
+      "defaultValue": "weather",
+      "metadata": {
+        "description": "The name prefix for all resources"
+      }
+    }
+  },
+  "resources": [],
+  "outputs": {
+    "environmentName": {
+      "type": "string",
+      "value": "[parameters('environmentName')]"
+    },
+    "location": {
+      "type": "string",
+      "value": "[parameters('location')]"
+    },
+    "namePrefix": {
+      "type": "string",
+      "value": "[parameters('namePrefix')]"
+    }
+  }
+}

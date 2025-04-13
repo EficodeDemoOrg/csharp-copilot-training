@@ -1,11 +1,12 @@
 ﻿@page "/weather"
-@attribute [StreamRendering]
+
+@using Backend
 
 <PageTitle>Weather</PageTitle>
 
 <h1>Weather</h1>
 
-<p>This component demonstrates showing data.</p>
+<p>This component demonstrates fetching data from the server.</p>
 
 @if (forecasts == null)
 {
@@ -36,29 +37,25 @@ else
     </table>
 }
 
+@inject HttpClient Http
+
 @code {
     private WeatherForecast[]? forecasts;
 
+    // Property for testing purposes
+    [Parameter]
+    public WeatherForecast[]? ForecastsForTest { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
-        // Simulate asynchronous loading to demonstrate streaming rendering
-        await Task.Delay(500);
-
-        var startDate = DateOnly.FromDateTime(DateTime.Now);
-        var summaries = new[] { "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching" };
-        forecasts = Enumerable.Range(1, 5).Select(index => new WeatherForecast
+        // If test forecasts are provided, use them instead of making an HTTP request
+        if (ForecastsForTest != null)
         {
-            Date = startDate.AddDays(index),
-            TemperatureC = Random.Shared.Next(-20, 55),
-            Summary = summaries[Random.Shared.Next(summaries.Length)]
-        }).ToArray();
-    }
+            forecasts = ForecastsForTest;
+            return;
+        }
 
-    private class WeatherForecast
-    {
-        public DateOnly Date { get; set; }
-        public int TemperatureC { get; set; }
-        public string? Summary { get; set; }
-        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+        // Otherwise, make the actual HTTP request
+        forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("WeatherForecast");
     }
 }

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Backend.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/weatherforecast")]
 public class WeatherForecastController : ControllerBase
 {
     private static readonly string[] Summaries = new[]
@@ -34,14 +34,16 @@ public class WeatherForecastController : ControllerBase
         return CreatedAtAction(nameof(Get), new { id = forecast.Date }, forecast);
     }
 
-    private IEnumerable<WeatherForecast> RetrieveWeatherData(DateOnly startDate, int days)
+    [HttpGet("stormreports")]
+    public IActionResult GetStormReports()
     {
-        // Simulate data retrieval logic (e.g., from a database or external API)
-        return Enumerable.Range(1, days).Select(index => new WeatherForecast
+        var stormReports = new[]
         {
-            Date = startDate.AddDays(index),
-            TemperatureC = Random.Shared.Next(-20, 55),
-            Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-        });
+            new { Date = DateTime.Now.AddDays(-1), Description = "Severe thunderstorm with hail" },
+            new { Date = DateTime.Now.AddDays(-2), Description = "Tornado warning issued" },
+            new { Date = DateTime.Now.AddDays(-3), Description = "Heavy rainfall causing localised flooding" }
+        };
+
+        return Ok(stormReports);
     }
 }
