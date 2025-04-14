@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="../.github/copilot-instructions.md" />
+    <File Path="../README.md" />
+  </Folder>
+  <Folder Name="/Solution Items/.github/" />
+  <Folder Name="/Solution Items/.github/prompts/">
+    <File Path="../.github/prompts/new-class.prompt.md" />
+  </Folder>
+  <Project Path="Backend/Backend.csproj" />
+  <Project Path="BlazorUI/BlazorUI.csproj" />
+  <Project Path="Tests/Tests.csproj" />
+</Solution>
