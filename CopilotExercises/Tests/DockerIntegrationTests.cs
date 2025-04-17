@@ -4,9 +4,6 @@ using DotNet.Testcontainers.Configurations;
 using DotNet.Testcontainers.Containers;
 using System.Net;
 using System.Text.Json;
-using Xunit;
-using DotNet.Testcontainers.Images; // Add this using
-using DotNet.Testcontainers.Networks; // Add this using if needed for network scenarios
 
 namespace Tests;
 
@@ -53,9 +50,6 @@ public class DockerIntegrationTests : IAsyncLifetime
         // Get the dynamically assigned host port and set BaseAddress
         var mappedPort = _backendContainer.GetMappedPublicPort(80);
         _httpClient.BaseAddress = new Uri($"http://{_backendContainer.Hostname}:{mappedPort}");
-
-        // No need for manual delay if the wait strategy is effective
-        // await Task.Delay(TimeSpan.FromSeconds(3));
     }
 
     public async Task DisposeAsync()
@@ -63,8 +57,6 @@ public class DockerIntegrationTests : IAsyncLifetime
         // Clean up resources after tests complete
         _httpClient?.Dispose(); // Dispose HttpClient
         await _backendContainer.StopAsync();
-        // DisposeAsync handles container removal implicitly if needed based on builder config
-        // No need for: await _backendContainer.DisposeAsync();
     }
 
     [Fact]
@@ -111,17 +103,6 @@ public class DockerIntegrationTests : IAsyncLifetime
     [Fact]
     public async Task DockerContainer_ShouldBeHealthy()
     {
-        // This test specifically validates the Docker container is healthy
-
-        // Get container logs to verify it started properly
-        // Note: Getting logs might be less reliable than endpoint checks for health
-        // var (stdout, stderr) = await _backendContainer.GetLogsAsync();
-
-        // Perform simple validation on logs (optional, can be noisy)
-        // Assert.DoesNotContain("Error", stdout, StringComparison.OrdinalIgnoreCase);
-        // Assert.DoesNotContain("Exception", stdout, StringComparison.OrdinalIgnoreCase);
-        // Assert.DoesNotContain("fail", stderr, StringComparison.OrdinalIgnoreCase); // Check stderr too
-
         // Verify the container is properly responding to a known endpoint
         var healthResponse = await _httpClient.GetAsync("/api/weatherforecast"); // Use the same endpoint as wait strategy
         Assert.True(healthResponse.IsSuccessStatusCode, "Container should respond successfully to /api/weatherforecast");
