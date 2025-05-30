@@ -1,6 +1,9 @@
 ﻿@page "/weather"
+@rendermode InteractiveServer
 
 @using Backend
+@using Radzen.Blazor
+@using Radzen
 
 <PageTitle>Weather</PageTitle>
 
@@ -12,8 +15,33 @@
 {
     <p><em>Loading...</em></p>
 }
+else if (forecasts.Length == 0)
+{
+    <p><em>No weather data available.</em></p>
+}
 else
 {
+    <div class="mb-4">
+        <h2>Temperature Chart</h2>
+        <div class="chart-container">
+            <RadzenChart Style="height: 400px; width: 100%;" @ref="chart">
+                <RadzenLineSeries Data="@forecasts" CategoryProperty="Date" Title="Temperature (C)" ValueProperty="TemperatureC" LineType="LineType.Solid" Smooth="false">
+                    <RadzenMarkers MarkerType="MarkerType.Circle" />
+                </RadzenLineSeries>
+                <RadzenLineSeries Data="@forecasts" CategoryProperty="Date" Title="Temperature (F)" ValueProperty="TemperatureF" LineType="LineType.Dashed" Smooth="false">
+                    <RadzenMarkers MarkerType="MarkerType.Square" />
+                </RadzenLineSeries>
+                <RadzenCategoryAxis Padding="20" FormatString="{0:d}" />
+                <RadzenValueAxis>
+                    <RadzenGridLines Visible="true" />
+                    <RadzenAxisTitle Text="Temperature" />
+                </RadzenValueAxis>
+                <RadzenLegend Position="LegendPosition.Bottom" />
+            </RadzenChart>
+        </div>
+    </div>
+
+    <h2>Weather Data Table</h2>
     <table class="table">
         <thead>
             <tr>
@@ -38,9 +66,11 @@ else
 }
 
 @inject HttpClient Http
+@inject IJSRuntime JSRuntime
 
 @code {
     private WeatherForecast[]? forecasts;
+    private RadzenChart? chart;
 
     // Property for testing purposes
     [Parameter]
@@ -55,7 +85,38 @@ else
             return;
         }
 
-        // Otherwise, make the actual HTTP request
-        forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("WeatherForecast");
+        try
+        {
+            // Make the HTTP request with error handling
+            forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("api/WeatherForecast");
+            
+            // For debugging: Log the data received
+            if (forecasts != null)
+            {
+                Console.WriteLine($"Received {forecasts.Length} forecasts");
+                foreach (var f in forecasts.Take(3))
+                {
+                    Console.WriteLine($"Date: {f.Date}, Temp C: {f.TemperatureC}, Temp F: {f.TemperatureF}, Summary: {f.Summary}");
+                }
+            }
+            else
+            {
+                Console.WriteLine("No forecast data received");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine($"Error fetching weather data: {ex.Message}");
+            await JSRuntime.InvokeVoidAsync("console.error", "Error fetching weather data:", ex.Message);
+            forecasts = Array.Empty<WeatherForecast>();
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && forecasts?.Length > 0)
+        {
+            await JSRuntime.InvokeVoidAsync("console.log", "Chart rendered with data", forecasts);
+        }
     }
 }

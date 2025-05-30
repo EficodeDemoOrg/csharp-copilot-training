@@ -1,5 +1,6 @@
-using Microsoft.AspNetCore.ResponseCompression;
 using BlazorUI.Components;
+using Microsoft.AspNetCore.ResponseCompression;
+using Radzen;
 
 namespace BlazorUI;
 
@@ -12,7 +13,10 @@ public class Program
         // Add services to the container.
         builder.Services.AddRazorComponents()
             .AddInteractiveServerComponents();
-            
+
+        // Register Radzen services
+        builder.Services.AddRadzenComponents();
+        
         // SignalR configuration
         builder.Services.AddSignalR(options =>
         {

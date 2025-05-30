@@ -24,18 +24,18 @@ public class DockerIntegrationTests : IAsyncLifetime
         _backendContainer = new ContainerBuilder()
             .WithImage("mcr.microsoft.com/dotnet/aspnet:8.0")
             .WithName($"backend-test-container-{randomSuffix}") // Add randomness to the container name
-            .WithPortBinding(80, true) // Bind container port 80 to a random host port
+            .WithPortBinding(8080, true) // Bind container port 8080 to a random host port
             .WithBindMount(
             Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "..", "..", "..", "..", "Backend", "bin", "Debug", "net8.0")), // Corrected relative path
             "/app", AccessMode.ReadWrite)
             .WithEnvironment("ASPNETCORE_ENVIRONMENT", "Development")
-            .WithEnvironment("ASPNETCORE_URLS", "http://+:80") // Ensure Kestrel listens on port 80
+            .WithEnvironment("ASPNETCORE_URLS", "http://+:8080") // Ensure Kestrel listens on port 8080
             .WithEnvironment("DOTNET_RUNNING_IN_CONTAINER", "true") // Signal to app it's running in Docker
             .WithWorkingDirectory("/app")
             .WithCommand("dotnet", "Backend.dll")
             // Refined wait strategy: Wait for HTTP success on Swagger UI path
             .WithWaitStrategy(Wait.ForUnixContainer()
-            .UntilHttpRequestIsSucceeded(request => request.ForPort(80).ForPath("/swagger")))
+            .UntilHttpRequestIsSucceeded(request => request.ForPort(8080).ForPath("/swagger")))
             .Build();
 
         // Create HttpClient - BaseAddress will be set in InitializeAsync
@@ -48,7 +48,7 @@ public class DockerIntegrationTests : IAsyncLifetime
         await _backendContainer.StartAsync();
 
         // Get the dynamically assigned host port and set BaseAddress
-        var mappedPort = _backendContainer.GetMappedPublicPort(80);
+        var mappedPort = _backendContainer.GetMappedPublicPort(8080);
         _httpClient.BaseAddress = new Uri($"http://{_backendContainer.Hostname}:{mappedPort}");
     }
 

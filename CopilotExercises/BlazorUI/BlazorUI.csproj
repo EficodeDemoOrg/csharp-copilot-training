@@ -9,6 +9,8 @@
   <ItemGroup>
     
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.0" />
+    
+    <PackageReference Include="Radzen.Blazor" Version="7.0.7" />
   </ItemGroup>
 
   <ItemGroup>

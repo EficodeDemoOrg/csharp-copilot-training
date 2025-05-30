@@ -49,3 +49,18 @@ h1:focus {
 .darker-border-checkbox.form-check-input {
     border-color: #929292;
 }
+
+/* Chart container styling */
+.chart-container {
+    height: 400px;
+    margin-bottom: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 15px;
+    background-color: #fafafa;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    display: block;
+    width: 100%;
+    overflow: visible;
+    position: relative;
+}

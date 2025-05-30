@@ -1,9 +1,11 @@
+using Backend;
+using BlazorUI.Components.Pages;
 using Bunit;
 using Microsoft.Extensions.DependencyInjection;
-using BlazorUI.Components.Pages;
-using Backend;
 using Moq;
 using Moq.Protected;
+using Radzen;
+using Radzen.Blazor.Rendering;
 
 namespace Tests;
 
@@ -23,6 +25,12 @@ public class WeatherPageTests : TestContext
 
         // Register the mock HttpClient in the service provider
         Services.AddSingleton(_mockHttpClient);
+        
+        // Register required Radzen services for the chart component
+        Services.AddScoped<DialogService>();
+        Services.AddScoped<NotificationService>();
+        Services.AddScoped<TooltipService>();
+        Services.AddScoped<ContextMenuService>();
     }
 
     [Fact]
@@ -60,6 +68,8 @@ public class WeatherPageTests : TestContext
             new WeatherForecast { Date = new DateOnly(2025, 4, 11), TemperatureC = 20, Summary = "Sunny" },
             new WeatherForecast { Date = new DateOnly(2025, 4, 12), TemperatureC = 15, Summary = "Cloudy" }
         };
+        JSInterop.Setup<Rect>("Radzen.createChart", _ => true);
+        JSInterop.SetupVoid("console.log", _ => true);
 
         // Act - Render the component with test forecasts directly
         var component = RenderComponent<Weather>(parameters => parameters
