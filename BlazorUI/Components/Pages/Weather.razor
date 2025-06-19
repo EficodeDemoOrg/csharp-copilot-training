@@ -71,6 +71,7 @@ else
 @code {
     private WeatherForecast[]? forecasts;
     private RadzenChart? chart;
+    private string? fetchErrorMessage; // Store error message for JS interop
 
     // Property for testing purposes
     [Parameter]
@@ -107,7 +108,7 @@ else
         catch (Exception ex)
         {
             Console.Error.WriteLine($"Error fetching weather data: {ex.Message}");
-            await JSRuntime.InvokeVoidAsync("console.error", "Error fetching weather data:", ex.Message);
+            fetchErrorMessage = ex.Message; // Store error message for later JS interop
             forecasts = Array.Empty<WeatherForecast>();
         }
     }
@@ -117,6 +118,11 @@ else
         if (firstRender && forecasts?.Length > 0)
         {
             await JSRuntime.InvokeVoidAsync("console.log", "Chart rendered with data", forecasts);
+        }
+        // If there was an error, log it to the browser console via JS interop
+        if (firstRender && !string.IsNullOrEmpty(fetchErrorMessage))
+        {
+            await JSRuntime.InvokeVoidAsync("console.error", "Error fetching weather data:", fetchErrorMessage);
         }
     }
 }
