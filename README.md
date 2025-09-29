@@ -3,19 +3,21 @@ This exercise is designed to help you become familiar with GitHub Copilot by gui
 
 Although all tasks can be completed without assistive tools, you are strongly encouraged to rely on Copilot as much as possible before resorting to a manual approach. By the end of this exercise, you should have a clearer understanding of Copilot’s capabilities, limitations, and most effective use cases.
 
+
 Experiment with all Copilot modes to understand their differences:
 * Ask mode
 * Edits mode
-* Agent mode (currently in preview mode in Visual Studio)
+* Agent mode
 
-Remember to utilzie all features available in Visual Studio:
+Remember to utilize all features available in Visual Studio and VS Code:
 * Custom instructions (.github/copilot-instructions.md)
 * Inline suggestions
 * Chat participants
-* References
+* References and code navigation
 * Slash commands
 * Next edit suggestions
 * Vision (if applicable)
+* Multi-model support (if enabled)
 
 ## Phase 1: Explore and document the solution
 Use Copilot to explore and document the project. Specifically, use Copilot to:
