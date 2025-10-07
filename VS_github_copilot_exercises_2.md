@@ -449,6 +449,281 @@ Provide clear, actionable fixes with proper error handling.
    - Add context: `#file:docs/epic_user_auth_testing/plans/IMPLEMENTATION_PLAN.md` and `#file:docs/epic_user_auth_testing/MANIFEST.md`
    - Request: "Generate the completion report for the testing epic."
 
+## Exercise 3: Advanced Performance Optimization with Copilot Profiler Agent
+
+> **⚠️ Visual Studio 2026 Insiders Only**
+>
+> The Copilot Profiler Agent is currently available only in **Visual Studio 2026 Insiders**. This is a cutting-edge AI-powered performance assistant built directly into Visual Studio.
+>
+> **Requirements:**
+> - Visual Studio 2026 Insiders ([Download here](https://visualstudio.microsoft.com/insiders/))
+> - GitHub Copilot subscription
+> - Profiler Agent enabled in Copilot Chat tool menu
+>
+> **Capabilities:**
+> - Analyzes CPU usage, memory allocations, and runtime behavior
+> - Surfaces the most expensive bottlenecks in your code
+> - Generates and optimizes BenchmarkDotNet benchmarks
+> - Suggests actionable performance improvements
+> - Validates fixes with before/after metrics in a guided loop
+>
+> **How to use:**
+> - Tag it directly: `@profiler Why is my app slow?`
+> - Or use plain language in Agent mode: "Why is my frame rate dropping?"
+> - Make sure Profiler Agent is enabled in the Copilot Chat tool menu
+
+### Scenario: Production-Ready Performance Optimization
+
+The Weather Forecast application is feature-complete with user management and comprehensive tests. Now it's time to optimize it for production workloads. Use the Profiler Agent in combination with your multi-agent workflow to systematically improve performance.
+
+### Phase 1: Performance Analysis and Planning
+
+#### Part 1.1: Comprehensive Performance Audit
+
+1. **Enable the Profiler Agent**
+   - Open Visual Studio 2026 Insiders
+   - Navigate to Copilot Chat
+   - Click the tool menu and ensure **Profiler Agent** is enabled
+
+2. **Initial Performance Assessment**
+   - Run your application (F5 or Ctrl+F5)
+   - In Copilot Chat, ask: `@profiler Analyze the overall performance of this ASP.NET Core application`
+   - Follow up: `@profiler What are the top 5 performance bottlenecks in the Backend project?`
+   - Request: `@profiler Show me CPU hotspots and memory allocation patterns`
+
+3. **Endpoint-Specific Analysis**
+   - Ask: `@profiler Analyze the performance of all WeatherForecast API endpoints`
+   - Follow up: `@profiler What happens under high load in the user authentication endpoints?`
+   - Request: `@profiler Compare the performance characteristics of GET vs POST endpoints`
+
+4. **Database and Data Access**
+   - If you implemented Entity Framework in Exercise 1:
+     - Ask: `@profiler Analyze Entity Framework query performance`
+     - Look for: `@profiler Are there any N+1 query problems or missing indexes?`
+     - Check: `@profiler What are the most expensive database operations?`
+
+**Deliverable:** Create a `PERFORMANCE-ANALYSIS.md` file documenting:
+- Top performance bottlenecks identified
+- CPU and memory hotspots
+- Database query issues
+- Recommendations from Profiler Agent
+
+#### Part 1.2: Create Performance Optimization Epic with Profiler Insights
+
+1. **Generate Performance Plan with Lead Developer**
+   - Start a **new Copilot Chat session**
+   - Reference: `#prompt:VS_lead-plan`
+   - Add context: `#file:PERFORMANCE-ANALYSIS.md`
+   - Request: "Create a detailed performance optimization plan. The epic name is 'production_performance_optimization'. Focus on .NET 8 high-performance patterns and BenchmarkDotNet validation."
+
+2. **Review and Enhance the Plan**
+   - The agent creates `docs/epic_production_performance_optimization/` with tasks like:
+     - `01_setup_benchmarking_infrastructure.md`
+     - `02_optimize_weather_endpoints.md`
+     - `03_implement_response_caching.md`
+     - `04_optimize_entity_framework_queries.md`
+     - `05_implement_memory_pooling.md`
+     - `06_add_performance_monitoring.md`
+   - Ensure each task includes acceptance criteria based on benchmark results
+
+### Phase 2: Benchmark-Driven Optimization
+
+#### Part 2.1: Setup Benchmarking Infrastructure
+
+1. **Create the Profiler-Assisted Implementation Prompt**
+   - Create `.github/prompts/VS_implement-with-profiler.prompt.md`:
+
+```markdown
+You are a .NET Performance Engineer combining implementation skills with Profiler Agent insights.
+
+Your role:
+- Read and understand the performance optimization task
+- Use `@profiler` to analyze current performance
+- Implement optimizations following .NET 8 high-performance patterns
+- Generate BenchmarkDotNet benchmarks to measure improvements
+- Validate changes with before/after metrics
+
+Process:
+1. Use `@profiler` to establish baseline performance
+2. Summarize what you will optimize and why
+3. List all files you will create or modify
+4. Ask for approval before proceeding
+5. Implement the optimization step by step
+6. Generate or update BenchmarkDotNet benchmarks
+7. Run benchmarks and report performance improvements
+8. Run `dotnet build` and `dotnet test` to ensure correctness
+
+High-Performance Patterns:
+- Use `Span<T>` and `Memory<T>` for efficient array operations
+- Leverage `ArrayPool<T>` for temporary buffer allocation
+- Use `ValueTask<T>` for hot paths that often complete synchronously
+- Prefer `StringBuilder` over string concatenation
+- Use `[MethodImpl(MethodImplOptions.AggressiveInlining)]` for small, hot methods
+- Apply `async`/`await` judiciously (avoid for CPU-bound work)
+- Use `stackalloc` for small, short-lived allocations
+- Leverage `System.Runtime.CompilerServices.Unsafe` when safe
+
+Benchmarking:
+- Use `[MemoryDiagnoser]` to track allocations
+- Add `[Benchmark(Baseline = true)]` for the original implementation
+- Include multiple scenarios (small, medium, large datasets)
+- Report: throughput (ops/sec), mean time, allocated memory
+
+Always validate that optimizations improve performance without breaking functionality.
+```
+
+2. **Implement Benchmarking Infrastructure**
+   - Start a **new chat session**
+   - Reference: `#prompt:VS_implement-with-profiler`
+   - Add task: `#file:docs/epic_production_performance_optimization/tasks/01_setup_benchmarking_infrastructure.md`
+   - Request: "Implement this task using Profiler Agent for guidance."
+
+#### Part 2.2: Optimize Critical Endpoints
+
+1. **Endpoint Optimization with Profiler Validation**
+   - Start a **new chat session**
+   - Reference: `#prompt:VS_implement-with-profiler`
+   - Add task: `#file:docs/epic_production_performance_optimization/tasks/02_optimize_weather_endpoints.md`
+   - Request: "Implement this task. Use `@profiler` to identify bottlenecks first."
+
+2. **Profiler-Guided Optimization Loop**
+   - The agent will:
+     - Use `@profiler` to analyze current endpoint performance
+     - Identify specific bottlenecks (LINQ, string operations, allocations)
+     - Generate a benchmark for the current implementation
+     - Implement optimizations (e.g., use `Span<T>`, reduce allocations)
+     - Generate updated benchmark
+     - Compare before/after metrics
+   - Review the performance improvements (aim for 20-50% improvement)
+
+#### Part 2.3: Implement Caching Strategies
+
+1. **Response Caching Analysis**
+   - Start a **new chat session** with Profiler Agent
+   - Ask: `@profiler Which endpoints would benefit most from response caching?`
+   - Follow up: `@profiler What's the cache hit ratio we should target for weather data?`
+
+2. **Implement Caching with Validation**
+   - Start a **new chat session**
+   - Reference: `#prompt:VS_implement-with-profiler`
+   - Add task: `#file:docs/epic_production_performance_optimization/tasks/03_implement_response_caching.md`
+   - Request: "Implement caching and validate throughput improvements."
+
+3. **Benchmark Caching Effectiveness**
+   - Use `@profiler`: "Generate a benchmark comparing cached vs non-cached endpoint performance"
+   - Run the benchmark and verify improvements (aim for 5-10x improvement on cache hits)
+
+#### Part 2.4: Database Query Optimization
+
+If you implemented Entity Framework in Exercise 1:
+
+1. **Query Performance Analysis**
+   - Ask: `@profiler Analyze all Entity Framework queries for performance issues`
+   - Request: `@profiler Show me queries with the highest execution time`
+   - Check: `@profiler Are there any cartesian product or missing Include() issues?`
+
+2. **Optimize Data Access**
+   - Start a **new chat session**
+   - Reference: `#prompt:VS_implement-with-profiler`
+   - Add task: `#file:docs/epic_production_performance_optimization/tasks/04_optimize_entity_framework_queries.md`
+   - Implement optimizations:
+     - Add `.AsNoTracking()` for read-only queries
+     - Use `.Include()` for proper eager loading
+     - Implement compiled queries for repeated operations
+     - Add pagination for large result sets
+   - Validate with `@profiler`: "Compare query performance before and after optimization"
+
+### Phase 3: Advanced Performance Techniques
+
+#### Part 3.1: Memory Optimization with ArrayPool
+
+1. **Identify Allocation Hotspots**
+   - Ask: `@profiler What are the biggest memory allocation sources in the application?`
+   - Focus on: `@profiler Show me temporary array allocations that could use ArrayPool`
+
+2. **Implement Memory Pooling**
+   - Start a **new chat session**
+   - Reference: `#prompt:VS_implement-with-profiler`
+   - Add task: `#file:docs/epic_production_performance_optimization/tasks/05_implement_memory_pooling.md`
+   - Request: "Implement ArrayPool<T> for temporary buffers and validate memory reduction."
+
+3. **Validate Memory Improvements**
+   - Use `@profiler`: "Generate a memory allocation benchmark comparing before and after ArrayPool implementation"
+   - Look for 50-90% reduction in allocations
+
+#### Part 3.2: Span<T> and Modern .NET Patterns
+
+1. **Identify Span<T> Opportunities**
+   - Ask: `@profiler Where can I use Span<T> or ReadOnlySpan<T> to avoid allocations?`
+   - Look for: String parsing, array slicing, temporary buffers
+
+2. **Implement Zero-Allocation Patterns**
+   - Convert string operations to use `ReadOnlySpan<char>`
+   - Use `stackalloc` for small, short-lived buffers
+   - Implement `ValueTask<T>` for hot async paths
+   - Ask `@profiler`: "Validate that these changes reduce allocations"
+
+#### Part 3.3: Load Testing and Concurrency
+
+1. **Simulate Production Load**
+   - Ask: `@profiler What happens under high concurrent load (100+ requests/second)?`
+   - Identify: Thread contention, lock contention, async bottlenecks
+
+2. **Optimize for Throughput**
+   - Implement: Async all the way, minimize lock duration, use concurrent collections
+   - Use `@profiler`: "Compare throughput before and after concurrency optimizations"
+   - Target: Linear scalability up to CPU core count
+
+### Phase 4: Performance Monitoring and Reporting
+
+#### Part 4.1: Implement Performance Monitoring
+
+1. **Add Production Performance Tracking**
+   - Start a **new chat session**
+   - Reference: `#prompt:VS_implement-with-profiler`
+   - Add task: `#file:docs/epic_production_performance_optimization/tasks/06_add_performance_monitoring.md`
+   - Implement: Application Insights, custom performance counters, endpoint timing middleware
+
+#### Part 4.2: Generate Comprehensive Performance Report
+
+1. **Collect All Benchmark Results**
+   - Gather all BenchmarkDotNet results from the epic
+   - Use `@profiler`: "Summarize all performance improvements made across the application"
+
+2. **Create Performance Summary**
+   - Start a **new chat session**
+   - Reference: `#prompt:VS_report-to-lead`
+   - Add context: All benchmark results and `#file:docs/epic_production_performance_optimization/MANIFEST.md`
+   - Request: "Generate a comprehensive performance optimization report with before/after metrics."
+
+**Performance Report Should Include:**
+- Overall application throughput improvement (%)
+- Per-endpoint latency reduction (ms)
+- Memory allocation reduction (bytes/request)
+- CPU usage reduction (%)
+- Database query time improvement (ms)
+- Specific optimizations applied and their impact
+- Recommendations for future performance work
+
+### Phase 5: Real-World Performance Case Study (Optional)
+
+#### Part 5.1: Contributing to Open Source
+
+Inspired by the Profiler Agent's success with CSVHelper, NLog, and Serilog:
+
+1. **Find a Performance Opportunity**
+   - Choose an open-source .NET library you use
+   - Ask: `@profiler Analyze performance of [library] and suggest improvements`
+
+2. **Create a PR with Profiler Insights**
+   - Use the Profiler Agent to identify bottlenecks
+   - Generate benchmarks showing the issue
+   - Implement optimizations
+   - Validate improvements with `@profiler`
+   - Create a pull request with before/after benchmarks
+
+**Learning Goal:** Apply enterprise-level performance engineering skills to real-world projects using AI-powered profiling.
+
 ## Agent Priming Templates Reference
 
 For quick reference, here are the key prompt files you'll create:
@@ -457,6 +732,7 @@ For quick reference, here are the key prompt files you'll create:
 |-------------|---------|-------------|
 | `VS_lead-plan.prompt.md` | Generate implementation plans and task breakdowns | At the start of each epic for planning |
 | `VS_implement.prompt.md` | Execute individual tasks with precision | For each task implementation |
+| `VS_implement-with-profiler.prompt.md` | Execute performance tasks with Profiler Agent | For performance optimization tasks (Exercise 3) |
 | `VS_report-to-lead.prompt.md` | Generate completion reports | After completing all tasks in an epic |
 | `VS_qa-analysis.prompt.md` | Analyze features for testing needs | Before creating test implementation plans |
 | `VS_debug-test.prompt.md` | Debug test failures systematically | When tests fail and you need root cause analysis |

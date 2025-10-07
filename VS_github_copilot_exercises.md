@@ -490,6 +490,113 @@ Welcome to your comprehensive GitHub Copilot training journey for Visual Studio!
 
 ---
 
+## Phase 10: Performance Analysis with Copilot Profiler Agent
+
+> **⚠️ Visual Studio 2026 Insiders Only**
+>
+> The Copilot Profiler Agent is currently available only in **Visual Studio 2026 Insiders**. This is a cutting-edge feature that brings AI-powered performance optimization directly into your IDE.
+>
+> **Requirements:**
+> - Visual Studio 2026 Insiders ([Download here](https://visualstudio.microsoft.com/insiders/))
+> - GitHub Copilot subscription
+> - Profiler Agent enabled in Copilot Chat tool menu
+>
+> **What it does:**
+> - Analyzes CPU usage and memory allocations
+> - Identifies performance bottlenecks automatically
+> - Generates BenchmarkDotNet benchmarks
+> - Suggests actionable performance improvements
+> - Validates fixes with before/after metrics
+
+### Exercise 10.1: Getting Started with Profiler Agent
+
+**Scenario:** You've noticed the WeatherForecastController might have performance issues. Let's use the Profiler Agent to investigate.
+
+#### Part 1: Enable and Access the Profiler Agent
+
+1. **Enable the Profiler Agent**
+   - Open Visual Studio 2026 Insiders
+   - Navigate to Copilot Chat
+   - Click the **tool menu** (gear icon or settings)
+   - Ensure **Profiler Agent** is checked/enabled
+   - Close and reopen Copilot Chat if needed
+
+2. **Two Ways to Use the Profiler Agent**
+   - **Direct tagging**: `@profiler Why is my app slow?`
+   - **Plain language in Agent mode**: Just ask "Why is my frame rate dropping?" with Profiler Agent enabled
+
+#### Part 2: Your First Performance Analysis
+
+1. **Ask a Basic Performance Question**
+   - Open Copilot Chat
+   - Try: `@profiler Analyze the performance of the Backend project`
+   - Or: `@profiler What are the most expensive operations in this application?`
+   - The agent will automatically profile your running application
+
+2. **Targeted Controller Analysis**
+   - Open `Backend/Controllers/WeatherForecastController.cs`
+   - Ask: `@profiler What are the performance bottlenecks in #file:WeatherForecastController.cs?`
+   - Review the agent's findings about CPU usage and execution time
+
+3. **Memory Allocation Check**
+   - Ask: `@profiler Analyze memory allocations in the weather forecast endpoints`
+   - Look for excessive object creation or unnecessary allocations
+
+#### Part 3: Generate Your First Benchmark
+
+1. **Create a Baseline Benchmark**
+   - Select the `Get()` method in `WeatherForecastController.cs`
+   - Ask: `@profiler Generate a BenchmarkDotNet benchmark for #selection`
+   - The agent creates a properly configured benchmark class
+   - Review the generated benchmark code
+
+2. **Understanding the Benchmark**
+   - Ask: `@profiler Explain what this benchmark measures and how to run it`
+   - Learn about BenchmarkDotNet conventions and attributes
+
+#### Part 4: Apply a Simple Optimization
+
+1. **Get Performance Suggestions**
+   - After profiling, ask: `@profiler What performance improvements can you suggest for the WeatherForecast API?`
+   - Review the suggestions (might include caching, LINQ optimization, string handling, etc.)
+
+2. **Implement and Validate**
+   - Choose one simple suggestion to implement
+   - Apply the suggested code change
+   - Ask: `@profiler Validate this change by comparing performance`
+   - Review the before/after metrics
+
+**Learning Goal:** Understand how to use the Profiler Agent for basic performance analysis and optimization.
+
+### Exercise 10.2: Common Performance Patterns
+
+1. **String Operations**
+   - Ask: `@profiler Are there any inefficient string operations in #file:WeatherForecast.cs?`
+   - Learn about StringBuilder vs. concatenation
+   - Apply suggestions if found
+
+2. **LINQ Optimization**
+   - Ask: `@profiler Check for LINQ performance issues in the Backend project`
+   - Understand when to use direct loops vs. LINQ
+   - See suggestions for `.ToList()` vs. `.AsEnumerable()` usage
+
+3. **Async/Await Patterns**
+   - Ask: `@profiler Are there any synchronous operations that should be async?`
+   - Learn about async best practices in ASP.NET Core
+
+**Learning Goal:** Identify and fix common .NET performance anti-patterns.
+
+### Exercise 10.3: Next Steps
+
+Want to dive deeper into performance optimization? Check out **Exercise 3** in Session 2 (`VS_github_copilot_exercises_2.md`) for:
+- Complete performance optimization epics
+- Advanced benchmarking workflows
+- Database query optimization
+- Load testing scenarios
+- Integration with multi-agent workflows
+
+---
+
 ## Tips for Success with Visual Studio Copilot
 
 ### Best Practices
