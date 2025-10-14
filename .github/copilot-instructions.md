@@ -3,11 +3,11 @@
 
 # Copilot Instructions for Solution-Level Changes
 
-- Always make solution-level changes (such as adding/removing projects, configurations, or solution properties) in the `DotnetMcpServerTest.sln` file.
-- After any change to `DotnetMcpServerTest.sln`, automatically migrate those changes to `DotnetMcpServerTest.slnx` by running:
+- Always make solution-level changes (such as adding/removing projects, configurations, or solution properties) in the `CopilotExercises.sln` file.
+- After any change to `CopilotExercises.sln`, automatically migrate those changes to `CopilotExercises.slnx` by running:
 
 ```powershell
-dotnet sln DotnetMcpServerTest.sln migrate
+dotnet sln CopilotExercises.sln migrate
 ```
 
 - Do not prompt for confirmation before migrating; the migration should be performed immediately after any `.sln` modification.
