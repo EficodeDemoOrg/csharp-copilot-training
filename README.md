@@ -1,3 +1,11 @@
+# GitHub Copilot Training Repository
+
+> **📖 For Educators:** Teaching this material? Start with the [**Quick Start for Educators**](QUICK_START_FOR_EDUCATORS.md) or the comprehensive [**Educator Guide**](EDUCATOR_GUIDE.md) for detailed 2-session lesson plans.
+
+> **👨‍💻 For Students:** Start with the exercises in `github_copilot_exercises.md` (VS Code) or `VS_github_copilot_exercises.md` (Visual Studio).
+
+---
+
 # Summary
 This exercise is designed to help you become familiar with GitHub Copilot by guiding you through the process of refactoring and enhancing a Blazor application that displays weather data. The application will be restructured into separate front-end and back-end projects, integrated with persistent data storage, and extended to include weather data visualizations. It will also be containerized using Docker. Finally, Infrastructure as Code (IaC) and CI/CD pipelines will be implemented to support deployment and automation.
 
