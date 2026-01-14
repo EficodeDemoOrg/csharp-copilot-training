@@ -29,8 +29,6 @@ Welcome to your comprehensive GitHub Copilot training journey for Visual Studio!
    - Type `// Method to check if forecast is from today` and press Enter
    - Watch Copilot suggest a method implementation
    - Try accepting the suggestion with `Tab`
-   - Manually trigger a completion with `Alt+.` or `Alt+,`
-   - Cycle through alternatives: `Alt+.` (next) and `Alt+,` (previous)
 
 2. **Practice with Comments**
    - Add this comment: `// Calculate the age of this forecast in days`
